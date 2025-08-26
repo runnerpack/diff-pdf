@@ -1,0 +1,44 @@
+name: Build Windows Release
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        shell: msys2 {0}
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        update: true
+        install: >-
+          base-devel
+          mingw-w64-x86_64-toolchain
+          mingw-w64-x86_64-poppler
+          mingw-w64-x86_64-wxWidgets
+          zip
+
+    - name: Build diff-pdf
+      run: |
+        ./bootstrap
+        ./configure
+        make
+        make windows-dist
+
+    - name: Upload ZIP artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: diff-pdf-windows
+        path: diff-pdf-*.zip
