@@ -27,7 +27,7 @@ jobs:
           base-devel
           mingw-w64-x86_64-toolchain
           mingw-w64-x86_64-poppler
-          mingw-w64-x86_64-wxWidgets3.2
+          mingw-w64-wxwidgets3.2
           zip
 
     - name: Build diff-pdf
