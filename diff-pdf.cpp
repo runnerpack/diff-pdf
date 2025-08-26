@@ -1001,7 +1001,7 @@ int main(int argc, char *argv[])
         if (g_resolution < 1 || g_resolution > 2400) {
             fprintf(stderr, "Invalid dpi: %ld. Valid range is 1-2400 (default: %d)\n", g_resolution, DEFAULT_RESOLUTION);
             return 2;
-	}
+		}
     }
 
 
@@ -1012,15 +1012,15 @@ int main(int argc, char *argv[])
     {
         retval = doc_compare(doc1, doc2, pdf_file.utf8_str(), NULL) ? 0 : 1;
     }
-    else if ( parser.Found("view") )
+    else if ( parser.Found("diff") )
+    {
+        retval = doc_compare(doc1, doc2, NULL, NULL) ? 0 : 1;
+    }
+    else
     {
         wxGetApp().SetData(parser.GetParam(0), doc1,
                            parser.GetParam(1), doc2);
         retval = wxEntry(argc, argv);
-    }
-    else
-    {
-        retval = doc_compare(doc1, doc2, NULL, NULL) ? 0 : 1;
     }
 
     g_object_unref(doc1);
