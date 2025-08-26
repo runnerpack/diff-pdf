@@ -19,18 +19,21 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Update package database
-      run: pacman -Sy
-
     - name: Set up MSYS2
       uses: msys2/setup-msys2@v2
       with:
-        update: true
-        install: >-
-          base-devel
-          mingw-w64-x86_64-toolchain
-          mingw-w64-x86_64-poppler
-          mingw-w64-wxwidgets3.2
+        msystem: UCRT64
+
+    - name: Refresh package database
+      run: pacman -Sy
+
+    - name: Install dependencies
+      run: |
+        pacman -S --noconfirm \
+          base-devel \
+          mingw-w64-ucrt-x86_64-toolchain \
+          mingw-w64-ucrt-x86_64-poppler \
+          mingw-w64-wxwidgets3.2 \
           zip
 
     - name: Build diff-pdf
